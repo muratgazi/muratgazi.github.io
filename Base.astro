@@ -1,0 +1,51 @@
+---
+import '../styles/global.css';
+import { kategoriler } from '../data/haberler';
+
+interface Props {
+  baslik?: string;
+}
+const { baslik = 'HABER SAV' } = Astro.props;
+const tarih = new Date().toLocaleDateString('tr-TR', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+  weekday: 'long',
+  timeZone: 'Europe/Istanbul',
+});
+---
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Türkiye'nin uluslararası medyada yansıması." />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{baslik}</title>
+  </head>
+  <body>
+    <header class="ust">
+      <div class="kap ust-ic">
+        <a class="logo" href="/" aria-label="HABER SAV ana sayfa">
+          <span class="logo-haber">HABER</span><span class="logo-sav">SAV</span>
+        </a>
+        <time class="tarih">{tarih}</time>
+      </div>
+      <nav class="menu" aria-label="Kategoriler">
+        <ul class="kap">
+          {kategoriler.map((k) => (
+            <li><a href="#">{k}</a></li>
+          ))}
+        </ul>
+      </nav>
+    </header>
+    <main>
+      <slot />
+    </main>
+    <footer class="alt">
+      <div class="kap">
+        <p>HABER SAV, MAN Sportif Faaliyetler Ltd. Şti. tarafından yayınlanır.</p>
+      </div>
+    </footer>
+  </body>
+</html>
