@@ -1,0 +1,62 @@
+---
+import Base from '../layouts/Base.astro';
+import { manset, yanHaberler, sonDakika, bolumler, yazarlar } from '../data/haberler';
+---
+<Base baslik="HABER SAV | Türkiye'nin uluslararası medyada yansıması">
+  <div class="son-dakika">
+    <div class="kap">
+      <strong>Son dakika</strong>
+      <ul>
+        {sonDakika.map((s) => <li>{s}</li>)}
+      </ul>
+    </div>
+  </div>
+
+  <section class="kap ust-bolum">
+    <article class="manset">
+      <div class="gorsel" role="img" aria-label="Manşet görseli için ayrılmış alan"></div>
+      <p class="etiket">{manset.kategori}</p>
+      <h1>{manset.baslik}</h1>
+      <p class="ozet">{manset.ozet}</p>
+    </article>
+    <aside class="yan">
+      <h2>Öne çıkanlar</h2>
+      <ul>
+        {yanHaberler.map((h) => (
+          <li>
+            <p class="etiket">{h.kategori}</p>
+            <a href="#">{h.baslik}</a>
+          </li>
+        ))}
+      </ul>
+    </aside>
+  </section>
+
+  {bolumler.map((b) => (
+    <section class="kap bolum">
+      <h2 class="bolum-baslik">{b.ad}</h2>
+      <div class="kartlar">
+        {b.haberler.map((h) => (
+          <article class="kart">
+            <div class="gorsel kucuk" role="img" aria-label="Haber görseli için ayrılmış alan"></div>
+            <h3><a href="#">{h.baslik}</a></h3>
+            <p>{h.ozet}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  ))}
+
+  <section class="kap bolum">
+    <h2 class="bolum-baslik">Köşe yazıları</h2>
+    <div class="yazarlar">
+      {yazarlar.map((y) => (
+        <article class="yazar">
+          <div class="avatar" aria-hidden="true"></div>
+          <h3>{y.ad}</h3>
+          <a href="#">{y.konu}</a>
+        </article>
+      ))}
+    </div>
+  </section>
+</Base>
