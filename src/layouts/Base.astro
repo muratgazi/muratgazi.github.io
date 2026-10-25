@@ -20,14 +20,14 @@ const tarih = new Date().toLocaleDateString('tr-TR', {
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="Türkiye'nin uluslararası medyada yansıması." />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
     <title>{baslik}</title>
   </head>
   <body>
-    <header class="ust">
-      <div class="kap ust-ic">
+    <header class="ust" style="background:#000">
+      <div class="kap ust-ic" style="padding-top:10px;padding-bottom:10px">
         <a class="logo" href="/" aria-label="HABER SAV ana sayfa">
-          <span class="logo-haber">HABER</span><span class="logo-sav">SAV</span>
+          <img src="/logo.png" alt="HABER SAV" style="height:96px;width:auto;display:block" />
         </a>
         <time class="tarih">{tarih}</time>
       </div>
