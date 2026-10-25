@@ -1,8 +1,12 @@
 ---
 import Base from '../layouts/Base.astro';
-import { manset, yanHaberler, sonDakika, bolumler, yazarlar, slug } from '../data/haberler';
+import { manset, yanHaberler, sonDakika, bolumler, yazarlar, tumHaberler, slug } from '../data/haberler';
+
 const arka = (h: { renk: [string, string] }) =>
-  `background:linear-gradient(135deg,${h.renk[0]},${h.renk[1]});display:flex;align-items:center;justify-content:center;font-size:3.2rem;`;
+  `background:linear-gradient(135deg,${h.renk[0]},${h.renk[1]});`;
+const link = (h: { baslik: string }) => `/haber/${slug(h.baslik)}/`;
+const etiket = (k: string) => '#' + k.toLocaleLowerCase('tr').replace(/\s+/g, '');
+const sonlar = tumHaberler.slice(1, 9);
 ---
 <Base baslik="HABER SAV | Türkiye'nin uluslararası medyada yansıması">
   <div class="son-dakika">
@@ -14,26 +18,52 @@ const arka = (h: { renk: [string, string] }) =>
     </div>
   </div>
 
-  <section class="kap ust-bolum">
-    <article class="manset">
-      <div class="gorsel" style={arka(manset)} role="img" aria-label="Manşet için üretilmiş grafik">{manset.ikon}</div>
-      <p class="etiket">{manset.kategori}</p>
-      <h1><a href={`/haber/${slug(manset.baslik)}/`}>{manset.baslik}</a></h1>
-      <p class="ozet">{manset.ozet}</p>
-      <p class="ozet">Kaynak: {manset.kaynak}</p>
-    </article>
-    <aside class="yan">
-      <h2>Öne çıkanlar</h2>
-      <ul>
-        {yanHaberler.map((h) => (
+  <section class="kap portal">
+    <aside class="p-sol">
+      <h2 class="p-baslik">Son haberler</h2>
+      <ul class="p-liste">
+        {sonlar.map((h) => (
           <li>
-            <p class="etiket">{h.kategori}</p>
-            <a href={`/haber/${slug(h.baslik)}/`}>{h.baslik}</a>
-            <p class="ozet">Kaynak: {h.kaynak}</p>
+            <a class="p-etiket" href={`/kategori/${slug(h.kategori)}/`}>{etiket(h.kategori)}</a>
+            <a href={link(h)}>{h.baslik}</a>
           </li>
         ))}
       </ul>
     </aside>
+
+    <article class="p-orta">
+      <a class="p-gorsel" href={link(manset)} style={arka(manset)} aria-label={manset.baslik}>{manset.ikon}</a>
+      <p class="etiket">{manset.kategori}</p>
+      <h1><a href={link(manset)}>{manset.baslik}</a></h1>
+      <p class="ozet">{manset.ozet}</p>
+      <p class="ozet">Kaynak: {manset.kaynak}</p>
+    </article>
+
+    <aside class="p-sag">
+      <h2 class="p-baslik">Köşe yazıları</h2>
+      <ul class="p-liste">
+        {yazarlar.map((y) => (
+          <li>
+            <span class="p-etiket">{y.ad}</span>
+            <a href="#">{y.konu}</a>
+          </li>
+        ))}
+      </ul>
+    </aside>
+  </section>
+
+  <section class="kap bolum">
+    <h2 class="bolum-baslik">Öne çıkanlar</h2>
+    <div class="p-dortlu">
+      {yanHaberler.map((h) => (
+        <article class="kart">
+          <a class="p-gorsel p-kucuk" href={link(h)} style={arka(h)} aria-label={h.baslik}>{h.ikon}</a>
+          <p class="etiket">{h.kategori}</p>
+          <h3><a href={link(h)}>{h.baslik}</a></h3>
+          <p>Kaynak: {h.kaynak}</p>
+        </article>
+      ))}
+    </div>
   </section>
 
   {bolumler.map((b) => (
@@ -42,8 +72,8 @@ const arka = (h: { renk: [string, string] }) =>
       <div class="kartlar">
         {b.haberler.map((h) => (
           <article class="kart">
-            <div class="gorsel kucuk" style={arka(h)} role="img" aria-label="Haber için üretilmiş grafik">{h.ikon}</div>
-            <h3><a href={`/haber/${slug(h.baslik)}/`}>{h.baslik}</a></h3>
+            <a class="p-gorsel p-kucuk" href={link(h)} style={arka(h)} aria-label={h.baslik}>{h.ikon}</a>
+            <h3><a href={link(h)}>{h.baslik}</a></h3>
             <p>{h.ozet}</p>
             <p>Kaynak: {h.kaynak}</p>
           </article>
@@ -53,19 +83,27 @@ const arka = (h: { renk: [string, string] }) =>
   ))}
 
   <section class="kap bolum">
-    <h2 class="bolum-baslik">Köşe yazıları</h2>
-    <div class="yazarlar">
-      {yazarlar.map((y) => (
-        <article class="yazar">
-          <div class="avatar" aria-hidden="true"></div>
-          <h3>{y.ad}</h3>
-          <a href="#">{y.konu}</a>
-        </article>
-      ))}
-    </div>
-  </section>
-
-  <section class="kap bolum">
     <p class="ozet">Demo sürümü: 25 Ekim 2026 tarihli haberlerin kısa özetleri, kaynakları belirtilerek derlenmiştir. Görseller otomatik üretilmiş grafiklerdir.</p>
   </section>
 </Base>
+
+<style>
+  .portal { display: grid; grid-template-columns: 260px 1fr 260px; gap: 28px; padding-top: 28px; padding-bottom: 20px; }
+  .p-baslik { font-size: 1.1rem; padding-bottom: 8px; border-bottom: 2px solid var(--yesil); margin-bottom: 4px; }
+  .p-liste li { padding: 10px 0; border-bottom: 1px solid var(--cizgi); }
+  .p-etiket { display: block; color: var(--yesil); font-size: 0.8rem; font-weight: 700; }
+  .p-liste a:last-child { font-family: var(--yazi-basliklar); font-weight: 700; line-height: 1.3; }
+  .p-gorsel { display: flex; align-items: center; justify-content: center; aspect-ratio: 16 / 9; border: 1px solid var(--cizgi); margin-bottom: 14px; font-size: 4.5rem; }
+  .p-gorsel.p-kucuk { font-size: 3rem; margin-bottom: 10px; }
+  .p-orta h1 { font-size: 2.1rem; margin: 6px 0 10px; }
+  .p-dortlu { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+  @media (max-width: 980px) {
+    .portal { grid-template-columns: 1fr; }
+    .p-orta { order: -1; }
+    .p-dortlu { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 520px) {
+    .p-dortlu { grid-template-columns: 1fr; }
+    .p-orta h1 { font-size: 1.7rem; }
+  }
+</style>

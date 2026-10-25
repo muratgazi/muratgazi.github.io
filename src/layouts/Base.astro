@@ -43,7 +43,30 @@ const tarih = new Date().toLocaleDateString('tr-TR', {
       <slot />
     </main>
     <footer class="alt">
-      <div class="kap">
+      <div class="kap alt-izgara">
+        <div>
+          <h3>Kategoriler</h3>
+          <ul>
+            {kategoriler.map((k) => (
+              <li><a href={`/kategori/${slug(k)}/`}>{k}</a></li>
+            ))}
+          </ul>
+        </div>
+        <div>
+          <h3>Kurumsal</h3>
+          <ul>
+            <li><a href="#">Künye</a></li>
+            <li><a href="#">İletişim</a></li>
+            <li><a href="#">Reklam</a></li>
+            <li><a href="#">Gizlilik</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3>HABER SAV</h3>
+          <p>Türkiye'nin uluslararası medyadaki yansımasını izleyen haber sitesi.</p>
+        </div>
+      </div>
+      <div class="kap alt-son">
         <p>HABER SAV, MAN Sportif Faaliyetler Ltd. Şti. tarafından yayınlanır.</p>
       </div>
     </footer>
@@ -57,4 +80,9 @@ const tarih = new Date().toLocaleDateString('tr-TR', {
   .okuma h1 { font-size: 2rem; margin: 8px 0 14px; }
   .okuma .ozet { color: var(--beyaz); font-size: 1.1rem; max-width: none; }
   .geri { display: inline-block; margin-top: 20px; color: var(--yesil); }
+  .alt-izgara { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; padding-bottom: 20px; }
+  .alt h3 { font-size: 1rem; color: var(--beyaz); margin-bottom: 10px; }
+  .alt li { padding: 3px 0; }
+  .alt-son { border-top: 1px solid var(--cizgi); padding-top: 16px; }
+  @media (max-width: 700px) { .alt-izgara { grid-template-columns: 1fr; } }
 </style>
