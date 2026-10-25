@@ -1,6 +1,6 @@
 ---
 import '../styles/global.css';
-import { kategoriler } from '../data/haberler';
+import { kategoriler, slug } from '../data/haberler';
 
 interface Props {
   baslik?: string;
@@ -34,7 +34,7 @@ const tarih = new Date().toLocaleDateString('tr-TR', {
       <nav class="menu" aria-label="Kategoriler">
         <ul class="kap">
           {kategoriler.map((k) => (
-            <li><a href="#">{k}</a></li>
+            <li><a href={`/kategori/${slug(k)}/`}>{k}</a></li>
           ))}
         </ul>
       </nav>
@@ -49,3 +49,12 @@ const tarih = new Date().toLocaleDateString('tr-TR', {
     </footer>
   </body>
 </html>
+
+<style is:global>
+  .son-dakika ul, .menu ul { scrollbar-width: none; }
+  .son-dakika ul::-webkit-scrollbar, .menu ul::-webkit-scrollbar { display: none; }
+  .okuma { max-width: 760px; padding-top: 28px; padding-bottom: 48px; }
+  .okuma h1 { font-size: 2rem; margin: 8px 0 14px; }
+  .okuma .ozet { color: var(--beyaz); font-size: 1.1rem; max-width: none; }
+  .geri { display: inline-block; margin-top: 20px; color: var(--yesil); }
+</style>

@@ -20,10 +20,10 @@ export const manset: Haber = {
 };
 
 export const yanHaberler: Haber[] = [
-  { baslik: 'Brezilya’da ikinci tur: Lula, aşırı sağcı rakibine karşı sandıkta', ozet: '', kategori: 'Dünya Basını', kaynak: 'The Guardian', ikon: '🗳️', renk: ['#0a3d1f', '#111'] },
-  { baslik: 'İsrail bu hafta genel seçime gidiyor, Batı Şeria geçişleri seçim günü kapanacak', ozet: '', kategori: 'Diplomasi', kaynak: 'NPR, Euronews', ikon: '🕊️', renk: ['#0a2a3d', '#111'] },
-  { baslik: 'Musk, Ukrayna’yı Starlink şartlarını ihlalle suçladı; Kiev itiraz etti', ozet: '', kategori: 'Teknoloji', kaynak: 'Associated Press', ikon: '🛰️', renk: ['#2a0a3d', '#111'] },
-  { baslik: 'Yunanistan’da basketbol federasyonu başkanı şike soruşturması sürerken istifa etti', ozet: '', kategori: 'Spor', kaynak: 'Euronews', ikon: '🏀', renk: ['#3d2a0a', '#111'] },
+  { baslik: 'Brezilya’da ikinci tur: Lula, aşırı sağcı rakibine karşı sandıkta', ozet: 'Brezilyalılar bugün cumhurbaşkanlığı ikinci turu için sandık başında. Seçim, sol görüşlü Lula ile aşırı sağcı rakibi arasında geçiyor.', kategori: 'Dünya Basını', kaynak: 'The Guardian', ikon: '🗳️', renk: ['#0a3d1f', '#111'] },
+  { baslik: 'İsrail bu hafta genel seçime gidiyor, Batı Şeria geçişleri seçim günü kapanacak', ozet: 'İsrail, yıllardır süren savaşın ardından bu hafta genel seçime gidiyor. Birçok İsrailli için bu oylama, son on yılların en belirleyici seçimi. Seçim günü Batı Şeria geçişlerinin kapatılması kararlaştırıldı.', kategori: 'Diplomasi', kaynak: 'NPR, Euronews', ikon: '🕊️', renk: ['#0a2a3d', '#111'] },
+  { baslik: 'Musk, Ukrayna’yı Starlink şartlarını ihlalle suçladı; Kiev itiraz etti', ozet: 'Elon Musk, Ukrayna ordusunun Starlink’i saldırı amaçlı drone harekâtlarında kullanarak hizmet şartlarını ihlal ettiğini öne sürdü. Ukraynalı yetkililer iddiaya itiraz etti.', kategori: 'Teknoloji', kaynak: 'Associated Press', ikon: '🛰️', renk: ['#2a0a3d', '#111'] },
+  { baslik: 'Yunanistan’da basketbol federasyonu başkanı şike soruşturması sürerken istifa etti', ozet: 'Yunanistan Basketbol Federasyonu başkanı, süren şike soruşturması nedeniyle görevinden istifa etti.', kategori: 'Spor', kaynak: 'Euronews', ikon: '🏀', renk: ['#3d2a0a', '#111'] },
 ];
 
 export const sonDakika: string[] = [
@@ -59,3 +59,15 @@ export const yazarlar = [
   { ad: 'Köşe yazarı 3', konu: 'Seçim haftası: Brezilya, Bulgaristan, İsrail' },
   { ad: 'Köşe yazarı 4', konu: 'Yapay zekâda iki kutuplu dünya' },
 ];
+
+export const slug = (s: string) =>
+  s
+    .toLocaleLowerCase('tr')
+    .replace(/ç/g, 'c').replace(/ğ/g, 'g').replace(/ı/g, 'i')
+    .replace(/ö/g, 'o').replace(/ş/g, 's').replace(/ü/g, 'u')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .slice(0, 70)
+    .replace(/-+$/, '');
+
+export const tumHaberler: Haber[] = [manset, ...yanHaberler, ...bolumler.flatMap((b) => b.haberler)];

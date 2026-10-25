@@ -1,6 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
-import { manset, yanHaberler, sonDakika, bolumler, yazarlar } from '../data/haberler';
+import { manset, yanHaberler, sonDakika, bolumler, yazarlar, slug } from '../data/haberler';
 const arka = (h: { renk: [string, string] }) =>
   `background:linear-gradient(135deg,${h.renk[0]},${h.renk[1]});display:flex;align-items:center;justify-content:center;font-size:3.2rem;`;
 ---
@@ -18,7 +18,7 @@ const arka = (h: { renk: [string, string] }) =>
     <article class="manset">
       <div class="gorsel" style={arka(manset)} role="img" aria-label="Manşet için üretilmiş grafik">{manset.ikon}</div>
       <p class="etiket">{manset.kategori}</p>
-      <h1>{manset.baslik}</h1>
+      <h1><a href={`/haber/${slug(manset.baslik)}/`}>{manset.baslik}</a></h1>
       <p class="ozet">{manset.ozet}</p>
       <p class="ozet">Kaynak: {manset.kaynak}</p>
     </article>
@@ -28,7 +28,7 @@ const arka = (h: { renk: [string, string] }) =>
         {yanHaberler.map((h) => (
           <li>
             <p class="etiket">{h.kategori}</p>
-            <a href="#">{h.baslik}</a>
+            <a href={`/haber/${slug(h.baslik)}/`}>{h.baslik}</a>
             <p class="ozet">Kaynak: {h.kaynak}</p>
           </li>
         ))}
@@ -43,7 +43,7 @@ const arka = (h: { renk: [string, string] }) =>
         {b.haberler.map((h) => (
           <article class="kart">
             <div class="gorsel kucuk" style={arka(h)} role="img" aria-label="Haber için üretilmiş grafik">{h.ikon}</div>
-            <h3><a href="#">{h.baslik}</a></h3>
+            <h3><a href={`/haber/${slug(h.baslik)}/`}>{h.baslik}</a></h3>
             <p>{h.ozet}</p>
             <p>Kaynak: {h.kaynak}</p>
           </article>
