@@ -1,0 +1,29 @@
+name: Haber tara
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  tara:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Haberleri tara ve taslak hazirla
+        run: node scripts/tara.mjs
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      - name: Taslaklari kaydet
+        run: |
+          git config user.name "habersav-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add taslaklar
+          git commit -m "Gunluk taslaklar" || echo "Degisiklik yok"
+          git push
