@@ -1,0 +1,31 @@
+---
+import Base from '../../layouts/Base.astro';
+import { kategoriler, tumHaberler, slug } from '../../data/haberler';
+
+export function getStaticPaths() {
+  return kategoriler.map((k) => ({
+    params: { kategori: slug(k) },
+    props: { ad: k, haberler: tumHaberler.filter((h) => h.kategori === k) },
+  }));
+}
+const { ad, haberler } = Astro.props;
+---
+<Base baslik={`${ad} | HABER SAV`}>
+  <section class="kap bolum" style="padding-top:28px">
+    <h1 class="bolum-baslik">{ad}</h1>
+    {haberler.length === 0 ? (
+      <p class="ozet">Bu kategoride henüz haber yok.</p>
+    ) : (
+      <div class="kartlar">
+        {haberler.map((h) => (
+          <article class="kart">
+            <div class="gorsel kucuk" style={`background:linear-gradient(135deg,${h.renk[0]},${h.renk[1]});display:flex;align-items:center;justify-content:center;font-size:3.2rem;`} role="img" aria-label="Haber için üretilmiş grafik">{h.ikon}</div>
+            <h3><a href={`/haber/${slug(h.baslik)}/`}>{h.baslik}</a></h3>
+            <p>{h.ozet}</p>
+            <p>Kaynak: {h.kaynak}</p>
+          </article>
+        ))}
+      </div>
+    )}
+  </section>
+</Base>

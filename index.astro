@@ -1,6 +1,8 @@
 ---
 import Base from '../layouts/Base.astro';
-import { manset, yanHaberler, sonDakika, bolumler, yazarlar } from '../data/haberler';
+import { manset, yanHaberler, sonDakika, bolumler, yazarlar, slug } from '../data/haberler';
+const arka = (h: { renk: [string, string] }) =>
+  `background:linear-gradient(135deg,${h.renk[0]},${h.renk[1]});display:flex;align-items:center;justify-content:center;font-size:3.2rem;`;
 ---
 <Base baslik="HABER SAV | Türkiye'nin uluslararası medyada yansıması">
   <div class="son-dakika">
@@ -14,10 +16,11 @@ import { manset, yanHaberler, sonDakika, bolumler, yazarlar } from '../data/habe
 
   <section class="kap ust-bolum">
     <article class="manset">
-      <div class="gorsel" role="img" aria-label="Manşet görseli için ayrılmış alan"></div>
+      <div class="gorsel" style={arka(manset)} role="img" aria-label="Manşet için üretilmiş grafik">{manset.ikon}</div>
       <p class="etiket">{manset.kategori}</p>
-      <h1>{manset.baslik}</h1>
+      <h1><a href={`/haber/${slug(manset.baslik)}/`}>{manset.baslik}</a></h1>
       <p class="ozet">{manset.ozet}</p>
+      <p class="ozet">Kaynak: {manset.kaynak}</p>
     </article>
     <aside class="yan">
       <h2>Öne çıkanlar</h2>
@@ -25,7 +28,8 @@ import { manset, yanHaberler, sonDakika, bolumler, yazarlar } from '../data/habe
         {yanHaberler.map((h) => (
           <li>
             <p class="etiket">{h.kategori}</p>
-            <a href="#">{h.baslik}</a>
+            <a href={`/haber/${slug(h.baslik)}/`}>{h.baslik}</a>
+            <p class="ozet">Kaynak: {h.kaynak}</p>
           </li>
         ))}
       </ul>
@@ -38,9 +42,10 @@ import { manset, yanHaberler, sonDakika, bolumler, yazarlar } from '../data/habe
       <div class="kartlar">
         {b.haberler.map((h) => (
           <article class="kart">
-            <div class="gorsel kucuk" role="img" aria-label="Haber görseli için ayrılmış alan"></div>
-            <h3><a href="#">{h.baslik}</a></h3>
+            <div class="gorsel kucuk" style={arka(h)} role="img" aria-label="Haber için üretilmiş grafik">{h.ikon}</div>
+            <h3><a href={`/haber/${slug(h.baslik)}/`}>{h.baslik}</a></h3>
             <p>{h.ozet}</p>
+            <p>Kaynak: {h.kaynak}</p>
           </article>
         ))}
       </div>
@@ -58,5 +63,9 @@ import { manset, yanHaberler, sonDakika, bolumler, yazarlar } from '../data/habe
         </article>
       ))}
     </div>
+  </section>
+
+  <section class="kap bolum">
+    <p class="ozet">Demo sürümü: 25 Ekim 2026 tarihli haberlerin kısa özetleri, kaynakları belirtilerek derlenmiştir. Görseller otomatik üretilmiş grafiklerdir.</p>
   </section>
 </Base>
